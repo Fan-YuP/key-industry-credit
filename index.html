@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>重点行业授信测算</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 微信分享基础配置 -->
+    <script>
+        // 微信分享配置
+        document.addEventListener('WeixinJSBridgeReady', function() {
+            WeixinJSBridge.call('hideOptionMenu');
+        }, false);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- 步骤指示器 -->
+        <div class="step-indicator">
+            <div class="step active" id="step1">行业选择</div>
+            <div class="step" id="step2">数据填写</div>
+            <div class="step" id="step3">结果展示</div>
+        </div>
+
+        <!-- 第一步：行业选择 -->
+        <div class="step-content active" id="content1">
+            <h1 class="title">重点行业授信</h1>
+            <div class="industry-select">
+                <h2 class="subtitle">请选择您的行业</h2>
+                <div class="dropdown-container">
+                    <div class="search-box">
+                        <input type="text" id="industry-search" placeholder="搜索行业..." class="search-input">
+                    </div>
+                    <div class="dropdown">
+                        <select id="industry-select" class="dropdown-select" name="industry">
+                            <option value="mechanical" selected>机械加工行业</option>
+                            <option value="grain-purchase">粮食购销行业</option>
+                            <option value="grain-processing">粮食加工行业</option>
+                            <option value="grain-planting">粮食种植行业</option>
+                            <option value="apple-planting">苹果种植行业</option>
+                            <option value="fruit-storage">果蔬仓储行业</option>
+                            <option value="catering">餐饮行业</option>
+                            <option value="tobacco">烟草行业</option>
+                            <option value="retail">零售百货行业</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-next" id="btn-next1">下一步</button>
+            </div>
+        </div>
+
+        <!-- 第二步：数据填写 -->
+        <div class="step-content" id="content2">
+            <h1 class="title">重点行业授信</h1>
+            <div class="form-container">
+                <div class="form-group">
+                    <label class="form-label">行业名称</label>
+                    <div class="form-value" id="selected-industry">机械加工行业</div>
+                </div>
+                
+                <!-- 机械加工行业表单 -->
+                <div class="industry-form" id="form-mechanical">
+                    <div class="form-group">
+                        <label class="form-label">年经营流水（单位：万元）</label>
+                        <input type="number" class="form-input" id="annual-flow" placeholder="请输入年经营流水" step="0.01" min="0" required>
+                        <div class="error-message" id="error-annual-flow"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">近一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="sales-current" placeholder="请输入近一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-sales-current"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">上一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="sales-previous" placeholder="请输入上一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-sales-previous"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭资产（单位：万元）</label>
+                        <input type="number" class="form-input" id="family-assets" placeholder="请输入家庭资产" step="0.01" min="0" required>
+                        <div class="error-message" id="error-family-assets"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">总负债（单位：万元）</label>
+                        <input type="number" class="form-input" id="total-liabilities" placeholder="请输入总负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-total-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭负债（除房贷、车贷、抵押类贷款外，其他信用、保证负债，单位：万元）</label>
+                        <input type="number" class="form-input" id="family-liabilities" placeholder="请输入家庭负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-family-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">经营年限（单位：年，精确到0.5年）</label>
+                        <input type="number" class="form-input" id="operation-years" placeholder="请输入经营年限" step="0.5" min="0" required>
+                        <div class="error-message" id="error-operation-years"></div>
+                    </div>
+                    
+                    <!-- 准入流程单选验证 -->
+                    <div class="form-group">
+                        <label class="form-label">企业是否存在重大行政处罚记录和重大涉诉涉案情况？</label>
+                        <div class="radio-group inline">
+                            <label class="radio-item inline">
+                                <input type="radio" name="legal-status" value="yes">
+                                <span class="radio-label">是</span>
+                            </label>
+                            <label class="radio-item inline">
+                                <input type="radio" name="legal-status" value="no">
+                                <span class="radio-label">否</span>
+                            </label>
+                        </div>
+                        <div class="error-message" id="error-legal-status"></div>
+                    </div>
+                </div>
+
+                <!-- 其他行业表单将在后续扩展 -->
+                
+                <div class="form-actions">
+                    <button class="btn-back" id="btn-back">上一步</button>
+                    <button class="btn-calculate" id="btn-calculate">立即测算</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三步：结果展示 -->
+        <div class="step-content" id="content3">
+            <h1 class="title">预估授信额度</h1>
+            <div class="result-container">
+                <div class="result-amount">
+                    <span class="currency">¥</span>
+                    <span class="amount" id="credit-amount">0.00</span>
+                    <span class="unit">万元</span>
+                </div>
+                
+                <div class="result-details">
+                    <h3 class="details-title">测算详情</h3>
+                    <div class="detail-item">
+                        <span class="detail-label">年经营流水：</span>
+                        <span class="detail-value" id="detail-flow">0.00万元</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">单户最高授信额度：</span>
+                        <span class="detail-value" id="detail-max-credit">0.00万元</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">家庭负债：</span>
+                        <span class="detail-value" id="detail-family-liabilities">0.00万元</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">测算公式：</span>
+                        <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">单户最高授信额度公式：</span>
+                        <span class="detail-value formula">年经营流水 × 20%（最高200万元）</span>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    <h3 class="warning-title">温馨提示：</h3>
+                    <p class="warning-content">该额度仅提供参考，具体以实际调查结果为准。</p>
+                </div>
+
+                <button class="btn-reset" id="btn-reset">重新测算</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript文件 -->
+    <script src="js/validation.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
