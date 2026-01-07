@@ -530,6 +530,367 @@ class FormValidator {
         
         return isValid;
     }
+    
+    // 验证粮食购销行业表单
+    validateGrainPurchaseForm() {
+        this.hideAllErrors();
+        let isValid = true;
+        
+        // 获取表单值
+        const annualFlow = document.getElementById('grain-purchase-annual-flow').value;
+        const salesCurrent = document.getElementById('grain-purchase-sales-current').value;
+        const salesPrevious = document.getElementById('grain-purchase-sales-previous').value;
+        const familyAssets = document.getElementById('grain-purchase-family-assets').value;
+        const totalLiabilities = document.getElementById('grain-purchase-total-liabilities').value;
+        const familyLiabilities = document.getElementById('grain-purchase-family-liabilities').value;
+        const operationYears = document.getElementById('grain-purchase-operation-years').value;
+        const qualification = document.querySelector('input[name="grain-purchase-qualification"]:checked');
+        
+        // 验证年经营流水
+        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
+        if (flowError) {
+            this.showError('error-grain-purchase-annual-flow', flowError);
+            isValid = false;
+        }
+        
+        // 验证近一年销售收入
+        const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
+        if (currentError) {
+            this.showError('error-grain-purchase-sales-current', currentError);
+            isValid = false;
+        }
+        
+        // 验证上一年销售收入
+        const previousError = this.validatePositiveNumber(salesPrevious, '上一年销售收入');
+        if (previousError) {
+            this.showError('error-grain-purchase-sales-previous', previousError);
+            isValid = false;
+        }
+        
+        // 验证家庭资产
+        const assetsError = this.validatePositiveNumber(familyAssets, '家庭资产');
+        if (assetsError) {
+            this.showError('error-grain-purchase-family-assets', assetsError);
+            isValid = false;
+        }
+        
+        // 验证总负债
+        const totalError = this.validatePositiveNumber(totalLiabilities, '总负债');
+        if (totalError) {
+            this.showError('error-grain-purchase-total-liabilities', totalError);
+            isValid = false;
+        }
+        
+        // 验证家庭负债
+        const familyError = this.validatePositiveNumber(familyLiabilities, '家庭负债');
+        if (familyError) {
+            this.showError('error-grain-purchase-family-liabilities', familyError);
+            isValid = false;
+        }
+        
+        // 验证经营年限（精确到0.5年，且必须大于等于1年）
+        const yearsError = this.validateOperationYears(operationYears, '经营年限');
+        if (yearsError) {
+            this.showError('error-grain-purchase-operation-years', yearsError);
+            isValid = false;
+        } else {
+            const years = parseFloat(operationYears);
+            if (years < 1) {
+                this.showError('error-grain-purchase-operation-years', '不符合准入要求：企业实际经营时间未满一年');
+                isValid = false;
+            }
+        }
+        
+        // 验证准入条件：持续经营1年以上且近1年无行政处罚或诉讼记录
+        if (!qualification) {
+            this.showError('error-grain-purchase-qualification', '请选择企业资格情况');
+            isValid = false;
+        } else if (qualification.value === 'no') {
+            this.showError('error-grain-purchase-qualification', '不符合准入要求：需持续经营1年以上且近1年无行政处罚或诉讼记录');
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+    
+    // 验证粮食加工行业表单
+    validateGrainProcessingForm() {
+        this.hideAllErrors();
+        let isValid = true;
+        
+        // 获取表单值
+        const annualFlow = document.getElementById('grain-processing-annual-flow').value;
+        const salesCurrent = document.getElementById('grain-processing-sales-current').value;
+        const salesPrevious = document.getElementById('grain-processing-sales-previous').value;
+        const familyAssets = document.getElementById('grain-processing-family-assets').value;
+        const totalLiabilities = document.getElementById('grain-processing-total-liabilities').value;
+        const familyLiabilities = document.getElementById('grain-processing-family-liabilities').value;
+        const operationYears = document.getElementById('grain-processing-operation-years').value;
+        const qualification = document.querySelector('input[name="grain-processing-qualification"]:checked');
+        
+        // 验证年经营流水
+        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
+        if (flowError) {
+            this.showError('error-grain-processing-annual-flow', flowError);
+            isValid = false;
+        }
+        
+        // 验证近一年销售收入
+        const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
+        if (currentError) {
+            this.showError('error-grain-processing-sales-current', currentError);
+            isValid = false;
+        }
+        
+        // 验证上一年销售收入
+        const previousError = this.validatePositiveNumber(salesPrevious, '上一年销售收入');
+        if (previousError) {
+            this.showError('error-grain-processing-sales-previous', previousError);
+            isValid = false;
+        }
+        
+        // 验证家庭资产
+        const assetsError = this.validatePositiveNumber(familyAssets, '家庭资产');
+        if (assetsError) {
+            this.showError('error-grain-processing-family-assets', assetsError);
+            isValid = false;
+        }
+        
+        // 验证总负债
+        const totalError = this.validatePositiveNumber(totalLiabilities, '总负债');
+        if (totalError) {
+            this.showError('error-grain-processing-total-liabilities', totalError);
+            isValid = false;
+        }
+        
+        // 验证家庭负债
+        const familyError = this.validatePositiveNumber(familyLiabilities, '家庭负债');
+        if (familyError) {
+            this.showError('error-grain-processing-family-liabilities', familyError);
+            isValid = false;
+        }
+        
+        // 验证经营年限（精确到0.5年，且必须大于等于1年）
+        const yearsError = this.validateOperationYears(operationYears, '经营年限');
+        if (yearsError) {
+            this.showError('error-grain-processing-operation-years', yearsError);
+            isValid = false;
+        } else {
+            const years = parseFloat(operationYears);
+            if (years < 1) {
+                this.showError('error-grain-processing-operation-years', '不符合准入要求：企业实际经营时间未满一年');
+                isValid = false;
+            }
+        }
+        
+        // 验证准入条件：持续经营1年以上且近1年无行政处罚或诉讼记录
+        if (!qualification) {
+            this.showError('error-grain-processing-qualification', '请选择企业资格情况');
+            isValid = false;
+        } else if (qualification.value === 'no') {
+            this.showError('error-grain-processing-qualification', '不符合准入要求：需持续经营1年以上且近1年无行政处罚或诉讼记录');
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+
+    // 验证粮食种植行业表单
+    validateGrainPlantingForm() {
+        this.hideAllErrors();
+        let isValid = true;
+        
+        // 获取表单值
+        const annualFlow = document.getElementById('grain-planting-annual-flow').value;
+        const salesCurrent = document.getElementById('grain-planting-sales-current').value;
+        const salesPrevious = document.getElementById('grain-planting-sales-previous').value;
+        const familyAssets = document.getElementById('grain-planting-family-assets').value;
+        const totalLiabilities = document.getElementById('grain-planting-total-liabilities').value;
+        const familyLiabilities = document.getElementById('grain-planting-family-liabilities').value;
+        const operationYears = document.getElementById('grain-planting-operation-years').value;
+        const acreage = document.getElementById('grain-planting-acreage').value;
+        const qualification = document.querySelector('input[name="grain-planting-qualification"]:checked');
+        const landProof = document.querySelector('input[name="grain-planting-land-proof"]:checked');
+        
+        // 验证年经营流水
+        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
+        if (flowError) {
+            this.showError('error-grain-planting-annual-flow', flowError);
+            isValid = false;
+        }
+        
+        // 验证近一年销售收入
+        const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
+        if (currentError) {
+            this.showError('error-grain-planting-sales-current', currentError);
+            isValid = false;
+        }
+        
+        // 验证上一年销售收入
+        const previousError = this.validatePositiveNumber(salesPrevious, '上一年销售收入');
+        if (previousError) {
+            this.showError('error-grain-planting-sales-previous', previousError);
+            isValid = false;
+        }
+        
+        // 验证家庭资产
+        const assetsError = this.validatePositiveNumber(familyAssets, '家庭资产');
+        if (assetsError) {
+            this.showError('error-grain-planting-family-assets', assetsError);
+            isValid = false;
+        }
+        
+        // 验证总负债
+        const totalError = this.validatePositiveNumber(totalLiabilities, '总负债');
+        if (totalError) {
+            this.showError('error-grain-planting-total-liabilities', totalError);
+            isValid = false;
+        }
+        
+        // 验证家庭负债
+        const familyError = this.validatePositiveNumber(familyLiabilities, '家庭负债');
+        if (familyError) {
+            this.showError('error-grain-planting-family-liabilities', familyError);
+            isValid = false;
+        }
+        
+        // 验证经营年限（精确到0.5年，且必须大于等于1年）
+        const yearsError = this.validateOperationYears(operationYears, '经营年限');
+        if (yearsError) {
+            this.showError('error-grain-planting-operation-years', yearsError);
+            isValid = false;
+        } else {
+            const years = parseFloat(operationYears);
+            if (years < 1) {
+                this.showError('error-grain-planting-operation-years', '不符合准入要求：持续经营时间未满一年');
+                isValid = false;
+            }
+        }
+        
+        // 验证粮食种植亩数
+        const acreageError = this.validatePositiveNumber(acreage, '粮食种植亩数');
+        if (acreageError) {
+            this.showError('error-grain-planting-acreage', acreageError);
+            isValid = false;
+        }
+        
+        // 验证准入条件：持续经营1年以上且近1年无行政处罚或诉讼记录
+        if (!qualification) {
+            this.showError('error-grain-planting-qualification', '请选择经营资格情况');
+            isValid = false;
+        } else if (qualification.value === 'no') {
+            this.showError('error-grain-planting-qualification', '不符合准入要求：需持续经营1年以上且近1年无行政处罚或诉讼记录');
+            isValid = false;
+        }
+        
+        // 验证准入条件：具有一定种植规模且具备土地承包合同和村委证明
+        if (!landProof) {
+            this.showError('error-grain-planting-land-proof', '请选择土地证明情况');
+            isValid = false;
+        } else if (landProof.value === 'no') {
+            this.showError('error-grain-planting-land-proof', '不符合准入要求：需具有一定种植规模且具备土地承包合同和村委证明');
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+
+    // 验证餐饮行业表单
+    validateCateringForm() {
+        this.hideAllErrors();
+        let isValid = true;
+        
+        // 获取表单值
+        const annualFlow = document.getElementById('catering-annual-flow').value;
+        const salesCurrent = document.getElementById('catering-sales-current').value;
+        const salesPrevious = document.getElementById('catering-sales-previous').value;
+        const totalInvestment = document.getElementById('catering-total-investment').value;
+        const familyAssets = document.getElementById('catering-family-assets').value;
+        const totalLiabilities = document.getElementById('catering-total-liabilities').value;
+        const familyLiabilities = document.getElementById('catering-family-liabilities').value;
+        const operationYears = document.getElementById('catering-operation-years').value;
+        const loanType = document.querySelector('input[name="catering-loan-type"]:checked');
+        const qualification = document.querySelector('input[name="catering-qualification"]:checked');
+        
+        // 验证年经营流水
+        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
+        if (flowError) {
+            this.showError('error-catering-annual-flow', flowError);
+            isValid = false;
+        }
+        
+        // 验证近一年销售收入
+        const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
+        if (currentError) {
+            this.showError('error-catering-sales-current', currentError);
+            isValid = false;
+        }
+        
+        // 验证上一年销售收入
+        const previousError = this.validatePositiveNumber(salesPrevious, '上一年销售收入');
+        if (previousError) {
+            this.showError('error-catering-sales-previous', previousError);
+            isValid = false;
+        }
+        
+        // 验证投资总成本
+        const investmentError = this.validatePositiveNumber(totalInvestment, '投资总成本');
+        if (investmentError) {
+            this.showError('error-catering-total-investment', investmentError);
+            isValid = false;
+        }
+        
+        // 验证家庭资产
+        const assetsError = this.validatePositiveNumber(familyAssets, '家庭资产');
+        if (assetsError) {
+            this.showError('error-catering-family-assets', assetsError);
+            isValid = false;
+        }
+        
+        // 验证总负债
+        const totalError = this.validatePositiveNumber(totalLiabilities, '总负债');
+        if (totalError) {
+            this.showError('error-catering-total-liabilities', totalError);
+            isValid = false;
+        }
+        
+        // 验证家庭负债
+        const familyError = this.validatePositiveNumber(familyLiabilities, '家庭负债');
+        if (familyError) {
+            this.showError('error-catering-family-liabilities', familyError);
+            isValid = false;
+        }
+        
+        // 验证经营年限（精确到0.5年，且必须大于等于1年）
+        const yearsError = this.validateOperationYears(operationYears, '经营年限');
+        if (yearsError) {
+            this.showError('error-catering-operation-years', yearsError);
+            isValid = false;
+        } else {
+            const years = parseFloat(operationYears);
+            if (years < 1) {
+                this.showError('error-catering-operation-years', '不符合准入要求：持续经营时间未满一年');
+                isValid = false;
+            }
+        }
+        
+        // 验证贷款类型
+        if (!loanType) {
+            this.showError('error-catering-loan-type', '请选择贷款类型');
+            isValid = false;
+        }
+        
+        // 验证准入条件：持续经营1年以上且无行政处罚、诉讼记录及食品安全事故
+        if (!qualification) {
+            this.showError('error-catering-qualification', '请选择经营资格情况');
+            isValid = false;
+        } else if (qualification.value === 'no') {
+            this.showError('error-catering-qualification', '不符合准入要求：需持续经营1年以上且无行政处罚、诉讼记录及食品安全事故');
+            isValid = false;
+        }
+        
+        return isValid;
+    }
 
     // 验证当前激活的表单
     validateCurrentForm(industry) {
@@ -544,6 +905,14 @@ class FormValidator {
                 return this.validateFruitStorageForm();
             case 'apple-planting':
                 return this.validateApplePlantingForm();
+            case 'grain-purchase':
+                return this.validateGrainPurchaseForm();
+            case 'grain-processing':
+                return this.validateGrainProcessingForm();
+            case 'grain-planting':
+                return this.validateGrainPlantingForm();
+            case 'catering':
+                return this.validateCateringForm();
             // 其他行业的验证逻辑将在后续扩展
             default:
                 return this.validateMechanicalForm();

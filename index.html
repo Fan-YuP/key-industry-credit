@@ -384,6 +384,269 @@
                     </div>
                 </div>
 
+                <!-- 粮食购销行业表单 -->
+                <div class="industry-form" id="form-grain-purchase">
+                    <div class="form-group">
+                        <label class="form-label">年经营流水（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-purchase-annual-flow" placeholder="请输入年经营流水" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-purchase-annual-flow"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">近一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-purchase-sales-current" placeholder="请输入近一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-purchase-sales-current"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">上一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-purchase-sales-previous" placeholder="请输入上一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-purchase-sales-previous"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭资产（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-purchase-family-assets" placeholder="请输入家庭资产" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-purchase-family-assets"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">总负债（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-purchase-total-liabilities" placeholder="请输入总负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-purchase-total-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭负债（除房贷、车贷、抵押类贷款外，其他信用、保证负债，单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-purchase-family-liabilities" placeholder="请输入家庭负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-purchase-family-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">经营年限（单位：年，精确到0.5年）</label>
+                        <input type="number" class="form-input" id="grain-purchase-operation-years" placeholder="请输入经营年限" step="0.5" min="0" required>
+                        <div class="error-message" id="error-grain-purchase-operation-years"></div>
+                    </div>
+                    
+                    <!-- 准入流程单选验证 -->
+                    <div class="form-group">
+                        <label class="form-label">是否持续经营1年以上且近1年无行政处罚或诉讼记录？</label>
+                        <div class="radio-group inline">
+                            <label class="radio-item inline">
+                                <input type="radio" name="grain-purchase-qualification" value="yes">
+                                <span class="radio-label">是</span>
+                            </label>
+                            <label class="radio-item inline">
+                                <input type="radio" name="grain-purchase-qualification" value="no">
+                                <span class="radio-label">否</span>
+                            </label>
+                        </div>
+                        <div class="error-message" id="error-grain-purchase-qualification"></div>
+                    </div>
+                </div>
+
+                <!-- 粮食加工行业表单 -->
+                <div class="industry-form" id="form-grain-processing">
+                    <div class="form-group">
+                        <label class="form-label">年经营流水（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-processing-annual-flow" placeholder="请输入年经营流水" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-processing-annual-flow"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">近一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-processing-sales-current" placeholder="请输入近一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-processing-sales-current"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">上一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-processing-sales-previous" placeholder="请输入上一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-processing-sales-previous"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭资产（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-processing-family-assets" placeholder="请输入家庭资产" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-processing-family-assets"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">总负债（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-processing-total-liabilities" placeholder="请输入总负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-processing-total-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭负债（除房贷、车贷、抵押类贷款外，其他信用、保证负债，单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-processing-family-liabilities" placeholder="请输入家庭负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-processing-family-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">经营年限（单位：年，精确到0.5年）</label>
+                        <input type="number" class="form-input" id="grain-processing-operation-years" placeholder="请输入经营年限" step="0.5" min="0" required>
+                        <div class="error-message" id="error-grain-processing-operation-years"></div>
+                    </div>
+                    
+                    <!-- 准入流程单选验证 -->
+                    <div class="form-group">
+                        <label class="form-label">是否持续经营1年以上且近1年无行政处罚或诉讼记录？</label>
+                        <div class="radio-group inline">
+                            <label class="radio-item inline">
+                                <input type="radio" name="grain-processing-qualification" value="yes">
+                                <span class="radio-label">是</span>
+                            </label>
+                            <label class="radio-item inline">
+                                <input type="radio" name="grain-processing-qualification" value="no">
+                                <span class="radio-label">否</span>
+                            </label>
+                        </div>
+                        <div class="error-message" id="error-grain-processing-qualification"></div>
+                    </div>
+                </div>
+
+                <!-- 粮食种植行业表单 -->
+                <div class="industry-form" id="form-grain-planting">
+                    <div class="form-group">
+                        <label class="form-label">年经营流水（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-planting-annual-flow" placeholder="请输入年经营流水" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-planting-annual-flow"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">近一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-planting-sales-current" placeholder="请输入近一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-planting-sales-current"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">上一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-planting-sales-previous" placeholder="请输入上一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-planting-sales-previous"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭资产（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-planting-family-assets" placeholder="请输入家庭资产" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-planting-family-assets"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">总负债（单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-planting-total-liabilities" placeholder="请输入总负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-planting-total-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭负债（除房贷、车贷、抵押类贷款外，其他信用、保证负债，单位：万元）</label>
+                        <input type="number" class="form-input" id="grain-planting-family-liabilities" placeholder="请输入家庭负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-grain-planting-family-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">经营年限（单位：年，精确到0.5年）</label>
+                        <input type="number" class="form-input" id="grain-planting-operation-years" placeholder="请输入经营年限" step="0.5" min="0" required>
+                        <div class="error-message" id="error-grain-planting-operation-years"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">粮食种植亩数（单位：亩）</label>
+                        <input type="number" class="form-input" id="grain-planting-acreage" placeholder="请输入粮食种植亩数" step="0.1" min="0" required>
+                        <div class="error-message" id="error-grain-planting-acreage"></div>
+                    </div>
+                    
+                    <!-- 准入流程单选验证 -->
+                    <div class="form-group">
+                        <label class="form-label">1. 是否持续经营1年以上且近1年无行政处罚或诉讼记录？</label>
+                        <div class="radio-group inline">
+                            <label class="radio-item inline">
+                                <input type="radio" name="grain-planting-qualification" value="yes">
+                                <span class="radio-label">是</span>
+                            </label>
+                            <label class="radio-item inline">
+                                <input type="radio" name="grain-planting-qualification" value="no">
+                                <span class="radio-label">否</span>
+                            </label>
+                        </div>
+                        <div class="error-message" id="error-grain-planting-qualification"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">2. 是否具有一定种植规模且具备土地承包合同和村委证明？</label>
+                        <div class="radio-group inline">
+                            <label class="radio-item inline">
+                                <input type="radio" name="grain-planting-land-proof" value="yes">
+                                <span class="radio-label">是</span>
+                            </label>
+                            <label class="radio-item inline">
+                                <input type="radio" name="grain-planting-land-proof" value="no">
+                                <span class="radio-label">否</span>
+                            </label>
+                        </div>
+                        <div class="error-message" id="error-grain-planting-land-proof"></div>
+                    </div>
+                </div>
+
+                <!-- 餐饮行业表单 -->
+                <div class="industry-form" id="form-catering">
+                    <div class="form-group">
+                        <label class="form-label">年经营流水（单位：万元）</label>
+                        <input type="number" class="form-input" id="catering-annual-flow" placeholder="请输入年经营流水" step="0.01" min="0" required>
+                        <div class="error-message" id="error-catering-annual-flow"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">近一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="catering-sales-current" placeholder="请输入近一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-catering-sales-current"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">上一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="catering-sales-previous" placeholder="请输入上一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-catering-sales-previous"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">投资总成本（单位：万元）</label>
+                        <input type="number" class="form-input" id="catering-total-investment" placeholder="请输入投资总成本" step="0.01" min="0" required>
+                        <div class="error-message" id="error-catering-total-investment"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭资产（单位：万元）</label>
+                        <input type="number" class="form-input" id="catering-family-assets" placeholder="请输入家庭资产" step="0.01" min="0" required>
+                        <div class="error-message" id="error-catering-family-assets"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">总负债（单位：万元）</label>
+                        <input type="number" class="form-input" id="catering-total-liabilities" placeholder="请输入总负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-catering-total-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭负债（除房贷、车贷、抵押类贷款外，其他信用、保证负债，单位：万元）</label>
+                        <input type="number" class="form-input" id="catering-family-liabilities" placeholder="请输入家庭负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-catering-family-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">经营年限（单位：年，精确到0.5年）</label>
+                        <input type="number" class="form-input" id="catering-operation-years" placeholder="请输入经营年限" step="0.5" min="0" required>
+                        <div class="error-message" id="error-catering-operation-years"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">贷款类型</label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="catering-loan-type" value="mortgage" checked>
+                                <span class="radio-label">抵押类</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="catering-loan-type" value="guarantee">
+                                <span class="radio-label">保证类（不含家庭成员担保）</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="catering-loan-type" value="credit">
+                                <span class="radio-label">信用类</span>
+                            </label>
+                        </div>
+                        <div class="error-message" id="error-catering-loan-type"></div>
+                    </div>
+                    
+                    <!-- 准入流程单选验证 -->
+                    <div class="form-group">
+                        <label class="form-label">是否持续经营1年以上且无行政处罚、诉讼记录及食品安全事故？</label>
+                        <div class="radio-group inline">
+                            <label class="radio-item inline">
+                                <input type="radio" name="catering-qualification" value="yes">
+                                <span class="radio-label">是</span>
+                            </label>
+                            <label class="radio-item inline">
+                                <input type="radio" name="catering-qualification" value="no">
+                                <span class="radio-label">否</span>
+                            </label>
+                        </div>
+                        <div class="error-message" id="error-catering-qualification"></div>
+                    </div>
+                </div>
+
                 <!-- 其他行业表单将在后续扩展 -->
                 
                 <div class="form-actions">
