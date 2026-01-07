@@ -18,6 +18,16 @@ class CreditCalculator {
                 name: '零售百货行业',
                 maxCreditLimit: 80, // 信用、保证类最高授信额度上限（万元）
                 flowRatio: 0.3 // 年经营流水占比
+            },
+            'fruit-storage': {
+                name: '果蔬仓储行业',
+                maxCreditLimit: 0, // 无特定上限
+                flowRatio: 0.3 // 年经营流水占比
+            },
+            'apple-planting': {
+                name: '苹果种植行业',
+                maxCreditLimit: 0, // 无特定上限
+                costPerAcre: 0.56 // 亩均种植成本（万元/亩，5600元/亩）
             }
             // 其他行业配置将在后续扩展
         };
@@ -92,6 +102,38 @@ class CreditCalculator {
             creditAmount: creditAmount
         };
     }
+    
+    // 果蔬仓储行业测算
+    calculateFruitStorage(data) {
+        const config = this.industryConfigs['fruit-storage'];
+        
+        // 单户最高授信额度 = 年经营流水 × 30%
+        let maxCredit = data.annualFlow * config.flowRatio;
+        
+        // 我行拟授信额度 = 单户最高授信额度 - 家庭负债，最低0万元
+        const creditAmount = Math.max(maxCredit - data.familyLiabilities, 0);
+        
+        return {
+            maxCredit: maxCredit,
+            creditAmount: creditAmount
+        };
+    }
+    
+    // 苹果种植行业测算
+    calculateApplePlanting(data) {
+        const config = this.industryConfigs['apple-planting'];
+        
+        // 单户最高授信额度 = 果树种植亩数 × 亩均种植成本（5600元/亩 = 0.56万元/亩）
+        const maxCredit = data.acreage * config.costPerAcre;
+        
+        // 我行拟授信额度 = 单户最高授信额度 - 家庭负债，最低0万元
+        const creditAmount = Math.max(maxCredit - data.familyLiabilities, 0);
+        
+        return {
+            maxCredit: maxCredit,
+            creditAmount: creditAmount
+        };
+    }
 
     // 主测算函数
     calculate(industry, data) {
@@ -113,6 +155,12 @@ class CreditCalculator {
                 break;
             case 'retail':
                 result = this.calculateRetail(data);
+                break;
+            case 'fruit-storage':
+                result = this.calculateFruitStorage(data);
+                break;
+            case 'apple-planting':
+                result = this.calculateApplePlanting(data);
                 break;
             // 其他行业的测算逻辑将在后续扩展
             default:
@@ -226,6 +274,60 @@ class CreditCalculator {
                     <span class="detail-value formula">年经营流水 × 30%（最高80万元）</span>
                 </div>
             `;
+        } else if (industry === 'fruit-storage') {
+            // 果蔬仓储行业测算详情
+            detailsContainer.innerHTML = `
+                <h3 class="details-title">测算详情</h3>
+                <div class="detail-item">
+                    <span class="detail-label">年经营流水：</span>
+                    <span class="detail-value">${this.formatAmount(data.annualFlow)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">单户最高授信额度：</span>
+                    <span class="detail-value">${this.formatAmount(result.maxCredit)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">家庭负债：</span>
+                    <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">测算公式：</span>
+                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">单户最高授信额度公式：</span>
+                    <span class="detail-value formula">年经营流水 × 30%</span>
+                </div>
+            `;
+        } else if (industry === 'apple-planting') {
+            // 苹果种植行业测算详情
+            detailsContainer.innerHTML = `
+                <h3 class="details-title">测算详情</h3>
+                <div class="detail-item">
+                    <span class="detail-label">果树种植亩数：</span>
+                    <span class="detail-value">${this.formatAmount(data.acreage)}亩</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">亩均种植成本：</span>
+                    <span class="detail-value">${this.formatAmount(this.industryConfigs['apple-planting'].costPerAcre * 10000)}元/亩</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">单户最高授信额度：</span>
+                    <span class="detail-value">${this.formatAmount(result.maxCredit)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">家庭负债：</span>
+                    <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">测算公式：</span>
+                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">单户最高授信额度公式：</span>
+                    <span class="detail-value formula">果树种植亩数 × 亩均种植成本（5600元/亩）</span>
+                </div>
+            `;
         } else {
             // 默认机械加工行业测算详情
             detailsContainer.innerHTML = `
@@ -329,6 +431,33 @@ class CreditCalculator {
             operationYears: parseFloat(document.getElementById('retail-operation-years').value) || 0
         };
     }
+    
+    // 获取果蔬仓储行业表单数据
+    getFruitStorageFormData() {
+        return {
+            annualFlow: parseFloat(document.getElementById('fruit-storage-annual-flow').value) || 0,
+            salesCurrent: parseFloat(document.getElementById('fruit-storage-sales-current').value) || 0,
+            salesPrevious: parseFloat(document.getElementById('fruit-storage-sales-previous').value) || 0,
+            familyAssets: parseFloat(document.getElementById('fruit-storage-family-assets').value) || 0,
+            totalLiabilities: parseFloat(document.getElementById('fruit-storage-total-liabilities').value) || 0,
+            familyLiabilities: parseFloat(document.getElementById('fruit-storage-family-liabilities').value) || 0,
+            operationYears: parseFloat(document.getElementById('fruit-storage-operation-years').value) || 0
+        };
+    }
+    
+    // 获取苹果种植行业表单数据
+    getApplePlantingFormData() {
+        return {
+            annualFlow: parseFloat(document.getElementById('apple-planting-annual-flow').value) || 0,
+            salesCurrent: parseFloat(document.getElementById('apple-planting-sales-current').value) || 0,
+            salesPrevious: parseFloat(document.getElementById('apple-planting-sales-previous').value) || 0,
+            familyAssets: parseFloat(document.getElementById('apple-planting-family-assets').value) || 0,
+            totalLiabilities: parseFloat(document.getElementById('apple-planting-total-liabilities').value) || 0,
+            familyLiabilities: parseFloat(document.getElementById('apple-planting-family-liabilities').value) || 0,
+            operationYears: parseFloat(document.getElementById('apple-planting-operation-years').value) || 0,
+            acreage: parseFloat(document.getElementById('apple-planting-acreage').value) || 0
+        };
+    }
 
     // 获取当前表单数据
     getCurrentFormData(industry) {
@@ -339,6 +468,10 @@ class CreditCalculator {
                 return this.getTobaccoFormData();
             case 'retail':
                 return this.getRetailFormData();
+            case 'fruit-storage':
+                return this.getFruitStorageFormData();
+            case 'apple-planting':
+                return this.getApplePlantingFormData();
             // 其他行业的表单数据获取将在后续扩展
             default:
                 return this.getMechanicalFormData();

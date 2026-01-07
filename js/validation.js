@@ -352,6 +352,184 @@ class FormValidator {
         
         return isValid;
     }
+    
+    // 验证果蔬仓储行业表单
+    validateFruitStorageForm() {
+        this.hideAllErrors();
+        let isValid = true;
+        
+        // 获取表单值
+        const annualFlow = document.getElementById('fruit-storage-annual-flow').value;
+        const salesCurrent = document.getElementById('fruit-storage-sales-current').value;
+        const salesPrevious = document.getElementById('fruit-storage-sales-previous').value;
+        const familyAssets = document.getElementById('fruit-storage-family-assets').value;
+        const totalLiabilities = document.getElementById('fruit-storage-total-liabilities').value;
+        const familyLiabilities = document.getElementById('fruit-storage-family-liabilities').value;
+        const operationYears = document.getElementById('fruit-storage-operation-years').value;
+        const qualification = document.querySelector('input[name="fruit-storage-qualification"]:checked');
+        
+        // 验证年经营流水
+        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
+        if (flowError) {
+            this.showError('error-fruit-storage-annual-flow', flowError);
+            isValid = false;
+        }
+        
+        // 验证近一年销售收入
+        const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
+        if (currentError) {
+            this.showError('error-fruit-storage-sales-current', currentError);
+            isValid = false;
+        }
+        
+        // 验证上一年销售收入
+        const previousError = this.validatePositiveNumber(salesPrevious, '上一年销售收入');
+        if (previousError) {
+            this.showError('error-fruit-storage-sales-previous', previousError);
+            isValid = false;
+        }
+        
+        // 验证家庭资产
+        const assetsError = this.validatePositiveNumber(familyAssets, '家庭资产');
+        if (assetsError) {
+            this.showError('error-fruit-storage-family-assets', assetsError);
+            isValid = false;
+        }
+        
+        // 验证总负债
+        const totalError = this.validatePositiveNumber(totalLiabilities, '总负债');
+        if (totalError) {
+            this.showError('error-fruit-storage-total-liabilities', totalError);
+            isValid = false;
+        }
+        
+        // 验证家庭负债
+        const familyError = this.validatePositiveNumber(familyLiabilities, '家庭负债');
+        if (familyError) {
+            this.showError('error-fruit-storage-family-liabilities', familyError);
+            isValid = false;
+        }
+        
+        // 验证经营年限（精确到0.5年，且必须大于等于1年）
+        const yearsError = this.validateOperationYears(operationYears, '经营年限');
+        if (yearsError) {
+            this.showError('error-fruit-storage-operation-years', yearsError);
+            isValid = false;
+        } else {
+            const years = parseFloat(operationYears);
+            if (years < 1) {
+                this.showError('error-fruit-storage-operation-years', '不符合准入要求：企业实际经营时间未满一年');
+                isValid = false;
+            }
+        }
+        
+        // 验证准入条件：持续经营1年以上，近1年无行政处罚或诉讼记录
+        if (!qualification) {
+            this.showError('error-fruit-storage-qualification', '请选择企业资格情况');
+            isValid = false;
+        } else if (qualification.value === 'no') {
+            this.showError('error-fruit-storage-qualification', '不符合准入要求：需持续经营1年以上，近1年无行政处罚或诉讼记录');
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+    
+    // 验证苹果种植行业表单
+    validateApplePlantingForm() {
+        this.hideAllErrors();
+        let isValid = true;
+        
+        // 获取表单值
+        const annualFlow = document.getElementById('apple-planting-annual-flow').value;
+        const salesCurrent = document.getElementById('apple-planting-sales-current').value;
+        const salesPrevious = document.getElementById('apple-planting-sales-previous').value;
+        const familyAssets = document.getElementById('apple-planting-family-assets').value;
+        const totalLiabilities = document.getElementById('apple-planting-total-liabilities').value;
+        const familyLiabilities = document.getElementById('apple-planting-family-liabilities').value;
+        const operationYears = document.getElementById('apple-planting-operation-years').value;
+        const acreage = document.getElementById('apple-planting-acreage').value;
+        const experience = document.querySelector('input[name="apple-planting-experience"]:checked');
+        
+        // 验证年经营流水
+        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
+        if (flowError) {
+            this.showError('error-apple-planting-annual-flow', flowError);
+            isValid = false;
+        }
+        
+        // 验证近一年销售收入
+        const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
+        if (currentError) {
+            this.showError('error-apple-planting-sales-current', currentError);
+            isValid = false;
+        }
+        
+        // 验证上一年销售收入
+        const previousError = this.validatePositiveNumber(salesPrevious, '上一年销售收入');
+        if (previousError) {
+            this.showError('error-apple-planting-sales-previous', previousError);
+            isValid = false;
+        }
+        
+        // 验证家庭资产
+        const assetsError = this.validatePositiveNumber(familyAssets, '家庭资产');
+        if (assetsError) {
+            this.showError('error-apple-planting-family-assets', assetsError);
+            isValid = false;
+        }
+        
+        // 验证总负债
+        const totalError = this.validatePositiveNumber(totalLiabilities, '总负债');
+        if (totalError) {
+            this.showError('error-apple-planting-total-liabilities', totalError);
+            isValid = false;
+        }
+        
+        // 验证家庭负债
+        const familyError = this.validatePositiveNumber(familyLiabilities, '家庭负债');
+        if (familyError) {
+            this.showError('error-apple-planting-family-liabilities', familyError);
+            isValid = false;
+        }
+        
+        // 验证经营年限（精确到0.5年，且必须大于等于3年）
+        const yearsError = this.validateOperationYears(operationYears, '经营年限');
+        if (yearsError) {
+            this.showError('error-apple-planting-operation-years', yearsError);
+            isValid = false;
+        } else {
+            const years = parseFloat(operationYears);
+            if (years < 3) {
+                this.showError('error-apple-planting-operation-years', '不符合准入要求：需具备3年及以上种植经验');
+                isValid = false;
+            }
+        }
+        
+        // 验证果树种植亩数
+        const acreageError = this.validatePositiveNumber(acreage, '果树种植亩数');
+        if (acreageError) {
+            this.showError('error-apple-planting-acreage', acreageError);
+            isValid = false;
+        } else {
+            const acreageValue = parseFloat(acreage);
+            if (acreageValue < 10) {
+                this.showError('error-apple-planting-acreage', '不符合准入要求：果树种植规模不低于10亩');
+                isValid = false;
+            }
+        }
+        
+        // 验证准入条件：具备3年及以上种植经验，果树管理良好且具备固定住所或稳定经营场所
+        if (!experience) {
+            this.showError('error-apple-planting-experience', '请选择种植经验情况');
+            isValid = false;
+        } else if (experience.value === 'no') {
+            this.showError('error-apple-planting-experience', '不符合准入要求：需具备3年及以上种植经验，果树管理良好且具备固定住所或稳定经营场所');
+            isValid = false;
+        }
+        
+        return isValid;
+    }
 
     // 验证当前激活的表单
     validateCurrentForm(industry) {
@@ -362,6 +540,10 @@ class FormValidator {
                 return this.validateTobaccoForm();
             case 'retail':
                 return this.validateRetailForm();
+            case 'fruit-storage':
+                return this.validateFruitStorageForm();
+            case 'apple-planting':
+                return this.validateApplePlantingForm();
             // 其他行业的验证逻辑将在后续扩展
             default:
                 return this.validateMechanicalForm();
