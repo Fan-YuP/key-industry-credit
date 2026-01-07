@@ -199,6 +199,76 @@
                     </div>
                 </div>
 
+                <!-- 零售百货行业表单 -->
+                <div class="industry-form" id="form-retail">
+                    <div class="form-group">
+                        <label class="form-label">年经营流水（单位：万元）</label>
+                        <input type="number" class="form-input" id="retail-annual-flow" placeholder="请输入年经营流水" step="0.01" min="0" required>
+                        <div class="error-message" id="error-retail-annual-flow"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">近一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="retail-sales-current" placeholder="请输入近一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-retail-sales-current"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">上一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="retail-sales-previous" placeholder="请输入上一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-retail-sales-previous"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭资产（单位：万元）</label>
+                        <input type="number" class="form-input" id="retail-family-assets" placeholder="请输入家庭资产" step="0.01" min="0" required>
+                        <div class="error-message" id="error-retail-family-assets"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">总负债（单位：万元）</label>
+                        <input type="number" class="form-input" id="retail-total-liabilities" placeholder="请输入总负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-retail-total-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭负债（除房贷、车贷、抵押类贷款外，其他信用、保证负债，单位：万元）</label>
+                        <input type="number" class="form-input" id="retail-family-liabilities" placeholder="请输入家庭负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-retail-family-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">经营年限（单位：年，精确到0.5年）</label>
+                        <input type="number" class="form-input" id="retail-operation-years" placeholder="请输入经营年限" step="0.5" min="0" required>
+                        <div class="error-message" id="error-retail-operation-years"></div>
+                    </div>
+                    
+                    <!-- 准入流程单选验证 -->
+                    <div class="form-group">
+                        <label class="form-label">1. 是否有固定经营场所、营业执照，持续经营1年以上，近1年无行政处罚或诉讼记录？</label>
+                        <div class="radio-group inline">
+                            <label class="radio-item inline">
+                                <input type="radio" name="retail-qualification" value="yes">
+                                <span class="radio-label">是</span>
+                            </label>
+                            <label class="radio-item inline">
+                                <input type="radio" name="retail-qualification" value="no">
+                                <span class="radio-label">否</span>
+                            </label>
+                        </div>
+                        <div class="error-message" id="error-retail-qualification"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">2. 近2年是否无严重逾期记录（如连续3个月以上逾期）？</label>
+                        <div class="radio-group inline">
+                            <label class="radio-item inline">
+                                <input type="radio" name="retail-credit-record" value="yes">
+                                <span class="radio-label">是</span>
+                            </label>
+                            <label class="radio-item inline">
+                                <input type="radio" name="retail-credit-record" value="no">
+                                <span class="radio-label">否</span>
+                            </label>
+                        </div>
+                        <div class="error-message" id="error-retail-credit-record"></div>
+                    </div>
+                </div>
+
                 <!-- 其他行业表单将在后续扩展 -->
                 
                 <div class="form-actions">

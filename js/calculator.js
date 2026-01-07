@@ -13,6 +13,11 @@ class CreditCalculator {
                 recentOrderRatio: 0.5, // 近12个月订烟量进货额占比
                 maxMonthlyOrderRatio: 1.5, // 往年订烟量最高月份进货额占比
                 retailIncomeRatio: 0.15 // 近12个月零售类经营收入占比
+            },
+            retail: {
+                name: '零售百货行业',
+                maxCreditLimit: 80, // 信用、保证类最高授信额度上限（万元）
+                flowRatio: 0.3 // 年经营流水占比
             }
             // 其他行业配置将在后续扩展
         };
@@ -69,6 +74,25 @@ class CreditCalculator {
         };
     }
 
+    // 零售百货行业测算
+    calculateRetail(data) {
+        const config = this.industryConfigs.retail;
+        
+        // 单户最高授信额度 = 年经营流水 × 30%
+        let maxCredit = data.annualFlow * config.flowRatio;
+        
+        // 单户最高授信额度不超过80万元
+        maxCredit = Math.min(maxCredit, config.maxCreditLimit);
+        
+        // 我行拟授信额度 = 单户最高授信额度 - 家庭负债，最低0万元
+        const creditAmount = Math.max(maxCredit - data.familyLiabilities, 0);
+        
+        return {
+            maxCredit: maxCredit,
+            creditAmount: creditAmount
+        };
+    }
+
     // 主测算函数
     calculate(industry, data) {
         let result = {
@@ -86,6 +110,9 @@ class CreditCalculator {
                 break;
             case 'tobacco':
                 result = this.calculateTobacco(data);
+                break;
+            case 'retail':
+                result = this.calculateRetail(data);
                 break;
             // 其他行业的测算逻辑将在后续扩展
             default:
@@ -172,6 +199,31 @@ class CreditCalculator {
                 <div class="detail-item">
                     <span class="detail-label">信用类贷款上限：</span>
                     <span class="detail-value formula">200万元（超过部分需追加担保）</span>
+                </div>
+            `;
+        } else if (industry === 'retail') {
+            // 零售百货行业测算详情
+            detailsContainer.innerHTML = `
+                <h3 class="details-title">测算详情</h3>
+                <div class="detail-item">
+                    <span class="detail-label">年经营流水：</span>
+                    <span class="detail-value">${this.formatAmount(data.annualFlow)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">单户最高授信额度：</span>
+                    <span class="detail-value">${this.formatAmount(result.maxCredit)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">家庭负债：</span>
+                    <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">测算公式：</span>
+                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">单户最高授信额度公式：</span>
+                    <span class="detail-value formula">年经营流水 × 30%（最高80万元）</span>
                 </div>
             `;
         } else {
@@ -265,6 +317,19 @@ class CreditCalculator {
         };
     }
 
+    // 获取零售百货行业表单数据
+    getRetailFormData() {
+        return {
+            annualFlow: parseFloat(document.getElementById('retail-annual-flow').value) || 0,
+            salesCurrent: parseFloat(document.getElementById('retail-sales-current').value) || 0,
+            salesPrevious: parseFloat(document.getElementById('retail-sales-previous').value) || 0,
+            familyAssets: parseFloat(document.getElementById('retail-family-assets').value) || 0,
+            totalLiabilities: parseFloat(document.getElementById('retail-total-liabilities').value) || 0,
+            familyLiabilities: parseFloat(document.getElementById('retail-family-liabilities').value) || 0,
+            operationYears: parseFloat(document.getElementById('retail-operation-years').value) || 0
+        };
+    }
+
     // 获取当前表单数据
     getCurrentFormData(industry) {
         switch (industry) {
@@ -272,6 +337,8 @@ class CreditCalculator {
                 return this.getMechanicalFormData();
             case 'tobacco':
                 return this.getTobaccoFormData();
+            case 'retail':
+                return this.getRetailFormData();
             // 其他行业的表单数据获取将在后续扩展
             default:
                 return this.getMechanicalFormData();
