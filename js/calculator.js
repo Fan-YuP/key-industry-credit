@@ -6,6 +6,13 @@ class CreditCalculator {
                 name: '机械加工行业',
                 maxCreditLimit: 200, // 单户最高授信额度上限（万元）
                 flowRatio: 0.2 // 年经营流水占比
+            },
+            tobacco: {
+                name: '烟草行业',
+                maxCreditLimit: 200, // 信用类贷款额度上限（万元）
+                recentOrderRatio: 0.5, // 近12个月订烟量进货额占比
+                maxMonthlyOrderRatio: 1.5, // 往年订烟量最高月份进货额占比
+                retailIncomeRatio: 0.15 // 近12个月零售类经营收入占比
             }
             // 其他行业配置将在后续扩展
         };
@@ -30,16 +37,55 @@ class CreditCalculator {
         };
     }
 
+    // 烟草行业测算
+    calculateTobacco(data) {
+        const config = this.industryConfigs.tobacco;
+        
+        // 额度一：近12个月订烟量进货额的50%
+        const quota1_1 = data.recentOrderAmount * config.recentOrderRatio;
+        // 额度一：往年订烟量最高月份进货额的1.5倍
+        const quota1_2 = data.maxMonthlyOrder * config.maxMonthlyOrderRatio;
+        // 额度一：取两者较高值
+        const quota1 = Math.max(quota1_1, quota1_2);
+        
+        // 额度二：近12个月零售类经营收入的15%
+        const quota2 = data.retailIncome * config.retailIncomeRatio;
+        
+        // 拟授信额度：额度一 + 额度二
+        const totalCredit = quota1 + quota2;
+        
+        // 信用类贷款额度不能超过200万
+        const creditAmount = Math.min(totalCredit, config.maxCreditLimit);
+        
+        // 超过200万的部分需要追加担保
+        const guaranteeAmount = Math.max(totalCredit - config.maxCreditLimit, 0);
+        
+        return {
+            quota1: quota1,
+            quota2: quota2,
+            totalCredit: totalCredit,
+            creditAmount: creditAmount,
+            guaranteeAmount: guaranteeAmount
+        };
+    }
+
     // 主测算函数
     calculate(industry, data) {
         let result = {
             maxCredit: 0,
-            creditAmount: 0
+            creditAmount: 0,
+            quota1: 0,
+            quota2: 0,
+            totalCredit: 0,
+            guaranteeAmount: 0
         };
         
         switch (industry) {
             case 'mechanical':
                 result = this.calculateMechanical(data);
+                break;
+            case 'tobacco':
+                result = this.calculateTobacco(data);
                 break;
             // 其他行业的测算逻辑将在后续扩展
             default:
@@ -63,12 +109,97 @@ class CreditCalculator {
         }
         
         // 更新测算详情
-        document.getElementById('detail-flow').textContent = this.formatAmount(data.annualFlow) + '万元';
-        document.getElementById('detail-max-credit').textContent = this.formatAmount(result.maxCredit) + '万元';
-        document.getElementById('detail-family-liabilities').textContent = this.formatAmount(data.familyLiabilities) + '万元';
+        this.updateResultDetails(industry, data, result);
         
         // 切换到结果页面
         this.switchStep(3);
+    }
+
+    // 更新测算详情
+    updateResultDetails(industry, data, result) {
+        const detailsContainer = document.querySelector('.result-details');
+        
+        if (industry === 'tobacco') {
+            // 烟草行业测算详情
+            detailsContainer.innerHTML = `
+                <h3 class="details-title">测算详情</h3>
+                <div class="detail-item">
+                    <span class="detail-label">近12个月订烟进货额：</span>
+                    <span class="detail-value">${this.formatAmount(data.recentOrderAmount)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">往年订烟量最高月份进货额：</span>
+                    <span class="detail-value">${this.formatAmount(data.maxMonthlyOrder)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">近12个月零售类经营收入：</span>
+                    <span class="detail-value">${this.formatAmount(data.retailIncome)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">额度一（订烟相关）：</span>
+                    <span class="detail-value">${this.formatAmount(result.quota1)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">额度二（零售收入）：</span>
+                    <span class="detail-value">${this.formatAmount(result.quota2)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">总授信额度：</span>
+                    <span class="detail-value">${this.formatAmount(result.totalCredit)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">信用类贷款额度：</span>
+                    <span class="detail-value">${this.formatAmount(result.creditAmount)}万元</span>
+                </div>
+                ${result.guaranteeAmount > 0 ? `
+                <div class="detail-item">
+                    <span class="detail-label">需追加担保额度：</span>
+                    <span class="detail-value" style="color: #e74c3c;">${this.formatAmount(result.guaranteeAmount)}万元</span>
+                </div>
+                ` : ''}
+                <div class="detail-item">
+                    <span class="detail-label">测算公式：</span>
+                    <span class="detail-value formula">拟授信额度 = 额度一 + 额度二</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">额度一公式：</span>
+                    <span class="detail-value formula">max(近12个月订烟进货额×50%, 往年订烟最高月进货额×1.5)</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">额度二公式：</span>
+                    <span class="detail-value formula">近12个月零售类经营收入×15%</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">信用类贷款上限：</span>
+                    <span class="detail-value formula">200万元（超过部分需追加担保）</span>
+                </div>
+            `;
+        } else {
+            // 默认机械加工行业测算详情
+            detailsContainer.innerHTML = `
+                <h3 class="details-title">测算详情</h3>
+                <div class="detail-item">
+                    <span class="detail-label">年经营流水：</span>
+                    <span class="detail-value">${this.formatAmount(data.annualFlow)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">单户最高授信额度：</span>
+                    <span class="detail-value">${this.formatAmount(result.maxCredit)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">家庭负债：</span>
+                    <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">测算公式：</span>
+                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">单户最高授信额度公式：</span>
+                    <span class="detail-value formula">年经营流水 × 20%（最高200万元）</span>
+                </div>
+            `;
+        }
     }
 
     // 切换步骤
@@ -118,11 +249,29 @@ class CreditCalculator {
         };
     }
 
+    // 获取烟草行业表单数据
+    getTobaccoFormData() {
+        return {
+            annualFlow: parseFloat(document.getElementById('tobacco-annual-flow').value) || 0,
+            salesCurrent: parseFloat(document.getElementById('tobacco-sales-current').value) || 0,
+            salesPrevious: parseFloat(document.getElementById('tobacco-sales-previous').value) || 0,
+            familyAssets: parseFloat(document.getElementById('tobacco-family-assets').value) || 0,
+            totalLiabilities: parseFloat(document.getElementById('tobacco-total-liabilities').value) || 0,
+            familyLiabilities: parseFloat(document.getElementById('tobacco-family-liabilities').value) || 0,
+            operationYears: parseFloat(document.getElementById('tobacco-operation-years').value) || 0,
+            recentOrderAmount: parseFloat(document.getElementById('tobacco-recent-order-amount').value) || 0,
+            maxMonthlyOrder: parseFloat(document.getElementById('tobacco-max-monthly-order').value) || 0,
+            retailIncome: parseFloat(document.getElementById('tobacco-retail-income').value) || 0
+        };
+    }
+
     // 获取当前表单数据
     getCurrentFormData(industry) {
         switch (industry) {
             case 'mechanical':
                 return this.getMechanicalFormData();
+            case 'tobacco':
+                return this.getTobaccoFormData();
             // 其他行业的表单数据获取将在后续扩展
             default:
                 return this.getMechanicalFormData();

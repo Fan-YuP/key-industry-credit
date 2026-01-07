@@ -114,6 +114,91 @@
                     </div>
                 </div>
 
+                <!-- 烟草行业表单 -->
+                <div class="industry-form" id="form-tobacco">
+                    <div class="form-group">
+                        <label class="form-label">年经营流水（单位：万元）</label>
+                        <input type="number" class="form-input" id="tobacco-annual-flow" placeholder="请输入年经营流水" step="0.01" min="0" required>
+                        <div class="error-message" id="error-tobacco-annual-flow"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">近一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="tobacco-sales-current" placeholder="请输入近一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-tobacco-sales-current"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">上一年销售收入（单位：万元）</label>
+                        <input type="number" class="form-input" id="tobacco-sales-previous" placeholder="请输入上一年销售收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-tobacco-sales-previous"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭资产（单位：万元）</label>
+                        <input type="number" class="form-input" id="tobacco-family-assets" placeholder="请输入家庭资产" step="0.01" min="0" required>
+                        <div class="error-message" id="error-tobacco-family-assets"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">总负债（单位：万元）</label>
+                        <input type="number" class="form-input" id="tobacco-total-liabilities" placeholder="请输入总负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-tobacco-total-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">家庭负债（除房贷、车贷、抵押类贷款外，其他信用、保证负债，单位：万元）</label>
+                        <input type="number" class="form-input" id="tobacco-family-liabilities" placeholder="请输入家庭负债" step="0.01" min="0" required>
+                        <div class="error-message" id="error-tobacco-family-liabilities"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">经营年限（单位：年，精确到0.5年）</label>
+                        <input type="number" class="form-input" id="tobacco-operation-years" placeholder="请输入经营年限" step="0.5" min="0" required>
+                        <div class="error-message" id="error-tobacco-operation-years"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">近12个月订烟进货额（单位：万元）</label>
+                        <input type="number" class="form-input" id="tobacco-recent-order-amount" placeholder="请输入近12个月订烟进货额" step="0.01" min="0" required>
+                        <div class="error-message" id="error-tobacco-recent-order-amount"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">往年订烟量最高月份进货额（单位：万元）</label>
+                        <input type="number" class="form-input" id="tobacco-max-monthly-order" placeholder="请输入往年订烟量最高月份进货额" step="0.01" min="0" required>
+                        <div class="error-message" id="error-tobacco-max-monthly-order"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">近12个月零售类经营收入（不含烟草零售收入，单位：万元）</label>
+                        <input type="number" class="form-input" id="tobacco-retail-income" placeholder="请输入近12个月零售类经营收入" step="0.01" min="0" required>
+                        <div class="error-message" id="error-tobacco-retail-income"></div>
+                    </div>
+                    
+                    <!-- 准入流程单选验证 -->
+                    <div class="form-group">
+                        <label class="form-label">1. 企业是否存在重大行政处罚记录和重大涉诉涉案情况？</label>
+                        <div class="radio-group inline">
+                            <label class="radio-item inline">
+                                <input type="radio" name="tobacco-legal-status" value="yes">
+                                <span class="radio-label">是</span>
+                            </label>
+                            <label class="radio-item inline">
+                                <input type="radio" name="tobacco-legal-status" value="no">
+                                <span class="radio-label">否</span>
+                            </label>
+                        </div>
+                        <div class="error-message" id="error-tobacco-legal-status"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">2. 是否取得烟草专卖局颁发的《烟草专卖零售许可证》？</label>
+                        <div class="radio-group inline">
+                            <label class="radio-item inline">
+                                <input type="radio" name="tobacco-license" value="yes">
+                                <span class="radio-label">是</span>
+                            </label>
+                            <label class="radio-item inline">
+                                <input type="radio" name="tobacco-license" value="no">
+                                <span class="radio-label">否</span>
+                            </label>
+                        </div>
+                        <div class="error-message" id="error-tobacco-license"></div>
+                    </div>
+                </div>
+
                 <!-- 其他行业表单将在后续扩展 -->
                 
                 <div class="form-actions">
