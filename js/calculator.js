@@ -5,7 +5,7 @@ class CreditCalculator {
             mechanical: {
                 name: '机械加工行业',
                 maxCreditLimit: 200, // 单户最高授信额度上限（万元）
-                flowRatio: 0.2 // 年经营流水占比
+                flowRatio: 0.2 // 近一年销售收入占比
             },
             tobacco: {
                 name: '烟草行业',
@@ -17,12 +17,12 @@ class CreditCalculator {
             retail: {
                 name: '零售百货行业',
                 maxCreditLimit: 80, // 信用、保证类最高授信额度上限（万元）
-                flowRatio: 0.3 // 年经营流水占比
+                flowRatio: 0.3 // 近一年销售收入占比
             },
             'fruit-storage': {
                 name: '果蔬仓储行业',
                 maxCreditLimit: 0, // 无特定上限
-                flowRatio: 0.3 // 年经营流水占比
+                flowRatio: 0.3 // 近一年销售收入占比
             },
             'apple-planting': {
                 name: '苹果种植行业',
@@ -32,12 +32,12 @@ class CreditCalculator {
             'grain-purchase': {
                 name: '粮食购销行业',
                 maxCreditLimit: 200, // 信用类、保证类最高授信额度上限（万元）
-                flowRatio: 0.1 // 年经营流水占比
+                flowRatio: 0.1 // 近一年销售收入占比
             },
             'grain-processing': {
                 name: '粮食加工行业',
                 maxCreditLimit: 200, // 信用类、保证类最高授信额度上限（万元）
-                flowRatio: 0.15 // 年经营流水占比
+                flowRatio: 0.15 // 近一年销售收入占比
             },
             'grain-planting': {
                 name: '粮食种植行业',
@@ -47,9 +47,9 @@ class CreditCalculator {
             catering: {
                 name: '餐饮行业',
                 maxCreditLimit: 200, // 信用类、保证类最高授信额度上限（万元）
-                mortgageRatio: 0.6, // 抵押类年经营流水占比
-                guaranteeRatio: 0.45, // 保证类年经营流水占比
-                creditRatio: 0.2 // 信用类年经营流水占比
+                mortgageRatio: 0.6, // 抵押类近一年销售收入占比
+                guaranteeRatio: 0.45, // 保证类近一年销售收入占比
+                creditRatio: 0.2 // 信用类近一年销售收入占比
             }
             // 其他行业配置将在后续扩展
         };
@@ -62,8 +62,8 @@ class CreditCalculator {
 
     // 机械加工行业测算
     calculateMechanical(data) {
-        // 单户最高授信额度 = 年经营流水 × 20%，最高200万元
-        const maxCredit = Math.min(data.annualFlow * this.industryConfigs.mechanical.flowRatio, this.industryConfigs.mechanical.maxCreditLimit);
+        // 单户最高授信额度 = 近一年销售收入 × 20%，最高200万元
+        const maxCredit = Math.min(data.salesCurrent * this.industryConfigs.mechanical.flowRatio, this.industryConfigs.mechanical.maxCreditLimit);
         
         // 我行拟授信额度 = 单户最高授信额度 - 家庭负债，最低0万元
         const creditAmount = Math.max(maxCredit - data.familyLiabilities, 0);
@@ -110,8 +110,8 @@ class CreditCalculator {
     calculateRetail(data) {
         const config = this.industryConfigs.retail;
         
-        // 单户最高授信额度 = 年经营流水 × 30%
-        let maxCredit = data.annualFlow * config.flowRatio;
+        // 单户最高授信额度 = 近一年销售收入 × 30%
+        let maxCredit = data.salesCurrent * config.flowRatio;
         
         // 单户最高授信额度不超过80万元
         maxCredit = Math.min(maxCredit, config.maxCreditLimit);
@@ -129,8 +129,8 @@ class CreditCalculator {
     calculateFruitStorage(data) {
         const config = this.industryConfigs['fruit-storage'];
         
-        // 单户最高授信额度 = 年经营流水 × 30%
-        let maxCredit = data.annualFlow * config.flowRatio;
+        // 单户最高授信额度 = 近一年销售收入 × 30%
+        let maxCredit = data.salesCurrent * config.flowRatio;
         
         // 我行拟授信额度 = 单户最高授信额度 - 家庭负债，最低0万元
         const creditAmount = Math.max(maxCredit - data.familyLiabilities, 0);
@@ -161,8 +161,8 @@ class CreditCalculator {
     calculateGrainPurchase(data) {
         const config = this.industryConfigs['grain-purchase'];
         
-        // 单户最高授信额度 = 年经营流水 × 10%，信用类、保证类最高200万元
-        let maxCredit = data.annualFlow * config.flowRatio;
+        // 单户最高授信额度 = 近一年销售收入 × 10%，信用类、保证类最高200万元
+        let maxCredit = data.salesCurrent * config.flowRatio;
         maxCredit = Math.min(maxCredit, config.maxCreditLimit);
         
         // 我行拟授信额度 = 单户最高授信额度 - 家庭负债，最低0万元
@@ -178,8 +178,8 @@ class CreditCalculator {
     calculateGrainProcessing(data) {
         const config = this.industryConfigs['grain-processing'];
         
-        // 单户最高授信额度 = 年经营流水 × 15%，信用类、保证类最高200万元
-        let maxCredit = data.annualFlow * config.flowRatio;
+        // 单户最高授信额度 = 近一年销售收入 × 15%，信用类、保证类最高200万元
+        let maxCredit = data.salesCurrent * config.flowRatio;
         maxCredit = Math.min(maxCredit, config.maxCreditLimit);
         
         // 我行拟授信额度 = 单户最高授信额度 - 家庭负债，最低0万元
@@ -214,7 +214,7 @@ class CreditCalculator {
         const config = this.industryConfigs.catering;
         let flowRatio = 0;
         
-        // 根据贷款类型选择不同的年经营流水占比
+        // 根据贷款类型选择不同的近一年销售收入占比
         switch (data.loanType) {
             case 'mortgage':
                 flowRatio = config.mortgageRatio; // 抵押类：60%
@@ -227,8 +227,8 @@ class CreditCalculator {
                 break;
         }
         
-        // 单户最高授信额度 = 年经营流水 × 对应比例
-        let maxCredit = data.annualFlow * flowRatio;
+        // 单户最高授信额度 = 近一年销售收入 × 对应比例
+        let maxCredit = data.salesCurrent * flowRatio;
         
         // 近一年销售收入较上一年销售收入下降的，单户最高授信额度 × 90%
         if (data.salesCurrent < data.salesPrevious) {
@@ -358,30 +358,14 @@ class CreditCalculator {
                     <span class="detail-value" style="color: #e74c3c;">${this.formatAmount(result.guaranteeAmount)}万元</span>
                 </div>
                 ` : ''}
-                <div class="detail-item">
-                    <span class="detail-label">测算公式：</span>
-                    <span class="detail-value formula">拟授信额度 = 额度一 + 额度二</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">额度一公式：</span>
-                    <span class="detail-value formula">max(近12个月订烟进货额×50%, 往年订烟最高月进货额×1.5)</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">额度二公式：</span>
-                    <span class="detail-value formula">近12个月零售类经营收入×15%</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">信用类贷款上限：</span>
-                    <span class="detail-value formula">200万元（超过部分需追加担保）</span>
-                </div>
             `;
         } else if (industry === 'retail') {
             // 零售百货行业测算详情
             detailsContainer.innerHTML = `
                 <h3 class="details-title">测算详情</h3>
                 <div class="detail-item">
-                    <span class="detail-label">年经营流水：</span>
-                    <span class="detail-value">${this.formatAmount(data.annualFlow)}万元</span>
+                    <span class="detail-label">近一年销售收入：</span>
+                    <span class="detail-value">${this.formatAmount(data.salesCurrent)}万元</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">单户最高授信额度：</span>
@@ -390,14 +374,6 @@ class CreditCalculator {
                 <div class="detail-item">
                     <span class="detail-label">家庭负债：</span>
                     <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">测算公式：</span>
-                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">单户最高授信额度公式：</span>
-                    <span class="detail-value formula">年经营流水 × 30%（最高80万元）</span>
                 </div>
             `;
         } else if (industry === 'fruit-storage') {
@@ -405,8 +381,8 @@ class CreditCalculator {
             detailsContainer.innerHTML = `
                 <h3 class="details-title">测算详情</h3>
                 <div class="detail-item">
-                    <span class="detail-label">年经营流水：</span>
-                    <span class="detail-value">${this.formatAmount(data.annualFlow)}万元</span>
+                    <span class="detail-label">近一年销售收入：</span>
+                    <span class="detail-value">${this.formatAmount(data.salesCurrent)}万元</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">单户最高授信额度：</span>
@@ -415,14 +391,6 @@ class CreditCalculator {
                 <div class="detail-item">
                     <span class="detail-label">家庭负债：</span>
                     <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">测算公式：</span>
-                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">单户最高授信额度公式：</span>
-                    <span class="detail-value formula">年经营流水 × 30%</span>
                 </div>
             `;
         } else if (industry === 'apple-planting') {
@@ -445,22 +413,14 @@ class CreditCalculator {
                     <span class="detail-label">家庭负债：</span>
                     <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
                 </div>
-                <div class="detail-item">
-                    <span class="detail-label">测算公式：</span>
-                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">单户最高授信额度公式：</span>
-                    <span class="detail-value formula">果树种植亩数 × 亩均种植成本（5600元/亩）</span>
-                </div>
             `;
         } else if (industry === 'grain-purchase') {
             // 粮食购销行业测算详情
             detailsContainer.innerHTML = `
                 <h3 class="details-title">测算详情</h3>
                 <div class="detail-item">
-                    <span class="detail-label">年经营流水：</span>
-                    <span class="detail-value">${this.formatAmount(data.annualFlow)}万元</span>
+                    <span class="detail-label">近一年销售收入：</span>
+                    <span class="detail-value">${this.formatAmount(data.salesCurrent)}万元</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">单户最高授信额度：</span>
@@ -469,14 +429,6 @@ class CreditCalculator {
                 <div class="detail-item">
                     <span class="detail-label">家庭负债：</span>
                     <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">测算公式：</span>
-                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">单户最高授信额度公式：</span>
-                    <span class="detail-value formula">年经营流水 × 10%（信用类、保证类最高200万元）</span>
                 </div>
             `;
         } else if (industry === 'grain-processing') {
@@ -484,8 +436,8 @@ class CreditCalculator {
             detailsContainer.innerHTML = `
                 <h3 class="details-title">测算详情</h3>
                 <div class="detail-item">
-                    <span class="detail-label">年经营流水：</span>
-                    <span class="detail-value">${this.formatAmount(data.annualFlow)}万元</span>
+                    <span class="detail-label">近一年销售收入：</span>
+                    <span class="detail-value">${this.formatAmount(data.salesCurrent)}万元</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">单户最高授信额度：</span>
@@ -494,14 +446,6 @@ class CreditCalculator {
                 <div class="detail-item">
                     <span class="detail-label">家庭负债：</span>
                     <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">测算公式：</span>
-                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">单户最高授信额度公式：</span>
-                    <span class="detail-value formula">年经营流水 × 15%（信用类、保证类最高200万元）</span>
                 </div>
             `;
         } else if (industry === 'grain-planting') {
@@ -523,18 +467,6 @@ class CreditCalculator {
                 <div class="detail-item">
                     <span class="detail-label">家庭负债：</span>
                     <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">测算公式：</span>
-                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">单户最高授信额度公式：</span>
-                    <span class="detail-value formula">粮食种植亩数 × 亩均种植成本（1500元/亩）</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">信用类、保证类最高授信额度上限：</span>
-                    <span class="detail-value formula">200万元（纳入省农担、烟台融资担保公司担保的除外）</span>
                 </div>
             `;
         } else if (industry === 'catering') {
@@ -563,8 +495,8 @@ class CreditCalculator {
             detailsContainer.innerHTML = `
                 <h3 class="details-title">测算详情</h3>
                 <div class="detail-item">
-                    <span class="detail-label">年经营流水：</span>
-                    <span class="detail-value">${this.formatAmount(data.annualFlow)}万元</span>
+                    <span class="detail-label">近一年销售收入：</span>
+                    <span class="detail-value">${this.formatAmount(data.salesCurrent)}万元</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">贷款类型：</span>
@@ -586,32 +518,14 @@ class CreditCalculator {
                     <span class="detail-label">家庭负债：</span>
                     <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
                 </div>
-                <div class="detail-item">
-                    <span class="detail-label">测算公式：</span>
-                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">单户最高授信额度公式：</span>
-                    <span class="detail-value formula">
-                        年经营流水 × ${ratioText}
-                        ${salesDecreased ? ' × 90%（销售收入下降调整）' : ''}
-                        ${data.loanType !== 'mortgage' ? `（最高不超过${config.maxCreditLimit}万元）` : ''}
-                    </span>
-                </div>
-                ${data.loanType !== 'mortgage' ? `
-                <div class="detail-item">
-                    <span class="detail-label">信用类、保证类最高授信额度上限：</span>
-                    <span class="detail-value formula">200万元（纳入烟台融资担保公司担保的除外）</span>
-                </div>
-                ` : ''}
             `;
         } else {
             // 默认机械加工行业测算详情
             detailsContainer.innerHTML = `
                 <h3 class="details-title">测算详情</h3>
                 <div class="detail-item">
-                    <span class="detail-label">年经营流水：</span>
-                    <span class="detail-value">${this.formatAmount(data.annualFlow)}万元</span>
+                    <span class="detail-label">近一年销售收入：</span>
+                    <span class="detail-value">${this.formatAmount(data.salesCurrent)}万元</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">单户最高授信额度：</span>
@@ -620,14 +534,6 @@ class CreditCalculator {
                 <div class="detail-item">
                     <span class="detail-label">家庭负债：</span>
                     <span class="detail-value">${this.formatAmount(data.familyLiabilities)}万元</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">测算公式：</span>
-                    <span class="detail-value formula">拟授信额度 = 单户最高授信额度 - 家庭负债</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">单户最高授信额度公式：</span>
-                    <span class="detail-value formula">年经营流水 × 20%（最高200万元）</span>
                 </div>
             `;
         }
@@ -670,7 +576,6 @@ class CreditCalculator {
     // 获取机械加工行业表单数据
     getMechanicalFormData() {
         return {
-            annualFlow: parseFloat(document.getElementById('annual-flow').value) || 0,
             salesCurrent: parseFloat(document.getElementById('sales-current').value) || 0,
             salesPrevious: parseFloat(document.getElementById('sales-previous').value) || 0,
             familyAssets: parseFloat(document.getElementById('family-assets').value) || 0,
@@ -683,7 +588,6 @@ class CreditCalculator {
     // 获取烟草行业表单数据
     getTobaccoFormData() {
         return {
-            annualFlow: parseFloat(document.getElementById('tobacco-annual-flow').value) || 0,
             salesCurrent: parseFloat(document.getElementById('tobacco-sales-current').value) || 0,
             salesPrevious: parseFloat(document.getElementById('tobacco-sales-previous').value) || 0,
             familyAssets: parseFloat(document.getElementById('tobacco-family-assets').value) || 0,
@@ -699,7 +603,6 @@ class CreditCalculator {
     // 获取零售百货行业表单数据
     getRetailFormData() {
         return {
-            annualFlow: parseFloat(document.getElementById('retail-annual-flow').value) || 0,
             salesCurrent: parseFloat(document.getElementById('retail-sales-current').value) || 0,
             salesPrevious: parseFloat(document.getElementById('retail-sales-previous').value) || 0,
             familyAssets: parseFloat(document.getElementById('retail-family-assets').value) || 0,
@@ -712,7 +615,6 @@ class CreditCalculator {
     // 获取果蔬仓储行业表单数据
     getFruitStorageFormData() {
         return {
-            annualFlow: parseFloat(document.getElementById('fruit-storage-annual-flow').value) || 0,
             salesCurrent: parseFloat(document.getElementById('fruit-storage-sales-current').value) || 0,
             salesPrevious: parseFloat(document.getElementById('fruit-storage-sales-previous').value) || 0,
             familyAssets: parseFloat(document.getElementById('fruit-storage-family-assets').value) || 0,
@@ -725,7 +627,6 @@ class CreditCalculator {
     // 获取苹果种植行业表单数据
     getApplePlantingFormData() {
         return {
-            annualFlow: parseFloat(document.getElementById('apple-planting-annual-flow').value) || 0,
             salesCurrent: parseFloat(document.getElementById('apple-planting-sales-current').value) || 0,
             salesPrevious: parseFloat(document.getElementById('apple-planting-sales-previous').value) || 0,
             familyAssets: parseFloat(document.getElementById('apple-planting-family-assets').value) || 0,
@@ -739,7 +640,6 @@ class CreditCalculator {
     // 获取粮食购销行业表单数据
     getGrainPurchaseFormData() {
         return {
-            annualFlow: parseFloat(document.getElementById('grain-purchase-annual-flow').value) || 0,
             salesCurrent: parseFloat(document.getElementById('grain-purchase-sales-current').value) || 0,
             salesPrevious: parseFloat(document.getElementById('grain-purchase-sales-previous').value) || 0,
             familyAssets: parseFloat(document.getElementById('grain-purchase-family-assets').value) || 0,
@@ -752,7 +652,6 @@ class CreditCalculator {
     // 获取粮食加工行业表单数据
     getGrainProcessingFormData() {
         return {
-            annualFlow: parseFloat(document.getElementById('grain-processing-annual-flow').value) || 0,
             salesCurrent: parseFloat(document.getElementById('grain-processing-sales-current').value) || 0,
             salesPrevious: parseFloat(document.getElementById('grain-processing-sales-previous').value) || 0,
             familyAssets: parseFloat(document.getElementById('grain-processing-family-assets').value) || 0,
@@ -765,7 +664,6 @@ class CreditCalculator {
     // 获取粮食种植行业表单数据
     getGrainPlantingFormData() {
         return {
-            annualFlow: parseFloat(document.getElementById('grain-planting-annual-flow').value) || 0,
             salesCurrent: parseFloat(document.getElementById('grain-planting-sales-current').value) || 0,
             salesPrevious: parseFloat(document.getElementById('grain-planting-sales-previous').value) || 0,
             familyAssets: parseFloat(document.getElementById('grain-planting-family-assets').value) || 0,
@@ -780,7 +678,6 @@ class CreditCalculator {
     getCateringFormData() {
         const loanTypeElement = document.querySelector('input[name="catering-loan-type"]:checked');
         return {
-            annualFlow: parseFloat(document.getElementById('catering-annual-flow').value) || 0,
             salesCurrent: parseFloat(document.getElementById('catering-sales-current').value) || 0,
             salesPrevious: parseFloat(document.getElementById('catering-sales-previous').value) || 0,
             totalInvestment: parseFloat(document.getElementById('catering-total-investment').value) || 0,

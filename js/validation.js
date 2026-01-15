@@ -69,7 +69,6 @@ class FormValidator {
         let isValid = true;
         
         // 获取表单值
-        const annualFlow = document.getElementById('annual-flow').value;
         const salesCurrent = document.getElementById('sales-current').value;
         const salesPrevious = document.getElementById('sales-previous').value;
         const familyAssets = document.getElementById('family-assets').value;
@@ -77,13 +76,6 @@ class FormValidator {
         const familyLiabilities = document.getElementById('family-liabilities').value;
         const operationYears = document.getElementById('operation-years').value;
         const legalStatus = document.querySelector('input[name="legal-status"]:checked');
-        
-        // 验证年经营流水
-        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
-        if (flowError) {
-            this.showError('error-annual-flow', flowError);
-            isValid = false;
-        }
         
         // 验证近一年销售收入
         const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
@@ -151,7 +143,6 @@ class FormValidator {
         let isValid = true;
         
         // 获取表单值
-        const annualFlow = document.getElementById('tobacco-annual-flow').value;
         const salesCurrent = document.getElementById('tobacco-sales-current').value;
         const salesPrevious = document.getElementById('tobacco-sales-previous').value;
         const familyAssets = document.getElementById('tobacco-family-assets').value;
@@ -163,13 +154,6 @@ class FormValidator {
         const retailIncome = document.getElementById('tobacco-retail-income').value;
         const legalStatus = document.querySelector('input[name="tobacco-legal-status"]:checked');
         const tobaccoLicense = document.querySelector('input[name="tobacco-license"]:checked');
-        
-        // 验证年经营流水
-        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
-        if (flowError) {
-            this.showError('error-tobacco-annual-flow', flowError);
-            isValid = false;
-        }
         
         // 验证近一年销售收入
         const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
@@ -267,7 +251,6 @@ class FormValidator {
         let isValid = true;
         
         // 获取表单值
-        const annualFlow = document.getElementById('retail-annual-flow').value;
         const salesCurrent = document.getElementById('retail-sales-current').value;
         const salesPrevious = document.getElementById('retail-sales-previous').value;
         const familyAssets = document.getElementById('retail-family-assets').value;
@@ -276,13 +259,6 @@ class FormValidator {
         const operationYears = document.getElementById('retail-operation-years').value;
         const qualification = document.querySelector('input[name="retail-qualification"]:checked');
         const creditRecord = document.querySelector('input[name="retail-credit-record"]:checked');
-        
-        // 验证年经营流水
-        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
-        if (flowError) {
-            this.showError('error-retail-annual-flow', flowError);
-            isValid = false;
-        }
         
         // 验证近一年销售收入
         const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
@@ -359,7 +335,6 @@ class FormValidator {
         let isValid = true;
         
         // 获取表单值
-        const annualFlow = document.getElementById('fruit-storage-annual-flow').value;
         const salesCurrent = document.getElementById('fruit-storage-sales-current').value;
         const salesPrevious = document.getElementById('fruit-storage-sales-previous').value;
         const familyAssets = document.getElementById('fruit-storage-family-assets').value;
@@ -367,13 +342,6 @@ class FormValidator {
         const familyLiabilities = document.getElementById('fruit-storage-family-liabilities').value;
         const operationYears = document.getElementById('fruit-storage-operation-years').value;
         const qualification = document.querySelector('input[name="fruit-storage-qualification"]:checked');
-        
-        // 验证年经营流水
-        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
-        if (flowError) {
-            this.showError('error-fruit-storage-annual-flow', flowError);
-            isValid = false;
-        }
         
         // 验证近一年销售收入
         const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
@@ -441,7 +409,6 @@ class FormValidator {
         let isValid = true;
         
         // 获取表单值
-        const annualFlow = document.getElementById('apple-planting-annual-flow').value;
         const salesCurrent = document.getElementById('apple-planting-sales-current').value;
         const salesPrevious = document.getElementById('apple-planting-sales-previous').value;
         const familyAssets = document.getElementById('apple-planting-family-assets').value;
@@ -450,13 +417,6 @@ class FormValidator {
         const operationYears = document.getElementById('apple-planting-operation-years').value;
         const acreage = document.getElementById('apple-planting-acreage').value;
         const experience = document.querySelector('input[name="apple-planting-experience"]:checked');
-        
-        // 验证年经营流水
-        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
-        if (flowError) {
-            this.showError('error-apple-planting-annual-flow', flowError);
-            isValid = false;
-        }
         
         // 验证近一年销售收入
         const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
@@ -537,7 +497,6 @@ class FormValidator {
         let isValid = true;
         
         // 获取表单值
-        const annualFlow = document.getElementById('grain-purchase-annual-flow').value;
         const salesCurrent = document.getElementById('grain-purchase-sales-current').value;
         const salesPrevious = document.getElementById('grain-purchase-sales-previous').value;
         const familyAssets = document.getElementById('grain-purchase-family-assets').value;
@@ -545,13 +504,6 @@ class FormValidator {
         const familyLiabilities = document.getElementById('grain-purchase-family-liabilities').value;
         const operationYears = document.getElementById('grain-purchase-operation-years').value;
         const qualification = document.querySelector('input[name="grain-purchase-qualification"]:checked');
-        
-        // 验证年经营流水
-        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
-        if (flowError) {
-            this.showError('error-grain-purchase-annual-flow', flowError);
-            isValid = false;
-        }
         
         // 验证近一年销售收入
         const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
@@ -619,7 +571,6 @@ class FormValidator {
         let isValid = true;
         
         // 获取表单值
-        const annualFlow = document.getElementById('grain-processing-annual-flow').value;
         const salesCurrent = document.getElementById('grain-processing-sales-current').value;
         const salesPrevious = document.getElementById('grain-processing-sales-previous').value;
         const familyAssets = document.getElementById('grain-processing-family-assets').value;
@@ -627,13 +578,6 @@ class FormValidator {
         const familyLiabilities = document.getElementById('grain-processing-family-liabilities').value;
         const operationYears = document.getElementById('grain-processing-operation-years').value;
         const qualification = document.querySelector('input[name="grain-processing-qualification"]:checked');
-        
-        // 验证年经营流水
-        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
-        if (flowError) {
-            this.showError('error-grain-processing-annual-flow', flowError);
-            isValid = false;
-        }
         
         // 验证近一年销售收入
         const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
@@ -701,7 +645,6 @@ class FormValidator {
         let isValid = true;
         
         // 获取表单值
-        const annualFlow = document.getElementById('grain-planting-annual-flow').value;
         const salesCurrent = document.getElementById('grain-planting-sales-current').value;
         const salesPrevious = document.getElementById('grain-planting-sales-previous').value;
         const familyAssets = document.getElementById('grain-planting-family-assets').value;
@@ -711,13 +654,6 @@ class FormValidator {
         const acreage = document.getElementById('grain-planting-acreage').value;
         const qualification = document.querySelector('input[name="grain-planting-qualification"]:checked');
         const landProof = document.querySelector('input[name="grain-planting-land-proof"]:checked');
-        
-        // 验证年经营流水
-        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
-        if (flowError) {
-            this.showError('error-grain-planting-annual-flow', flowError);
-            isValid = false;
-        }
         
         // 验证近一年销售收入
         const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
@@ -801,7 +737,6 @@ class FormValidator {
         let isValid = true;
         
         // 获取表单值
-        const annualFlow = document.getElementById('catering-annual-flow').value;
         const salesCurrent = document.getElementById('catering-sales-current').value;
         const salesPrevious = document.getElementById('catering-sales-previous').value;
         const totalInvestment = document.getElementById('catering-total-investment').value;
@@ -811,13 +746,6 @@ class FormValidator {
         const operationYears = document.getElementById('catering-operation-years').value;
         const loanType = document.querySelector('input[name="catering-loan-type"]:checked');
         const qualification = document.querySelector('input[name="catering-qualification"]:checked');
-        
-        // 验证年经营流水
-        const flowError = this.validatePositiveNumber(annualFlow, '年经营流水');
-        if (flowError) {
-            this.showError('error-catering-annual-flow', flowError);
-            isValid = false;
-        }
         
         // 验证近一年销售收入
         const currentError = this.validatePositiveNumber(salesCurrent, '近一年销售收入');
